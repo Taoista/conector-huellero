@@ -1,1 +1,13 @@
 c:\users\taois\documents\visual studio 2015\Projects\ConectorHuellero\ConectorHuellero\bin\Debug\ConectorHuellero.exe.config
+C:\Users\taois\Documents\Visual Studio 2015\Projects\ConectorHuellero\ConectorHuellero\obj\Debug\ConectorHuellero.vbprojResolveAssemblyReference.cache
+C:\Users\taois\Documents\Visual Studio 2015\Projects\ConectorHuellero\ConectorHuellero\obj\Debug\ConectorHuellero.Resources.resources
+C:\Users\taois\Documents\Visual Studio 2015\Projects\ConectorHuellero\ConectorHuellero\obj\Debug\ConectorHuellero.vbproj.GenerateResource.Cache
+C:\Users\taois\Documents\Visual Studio 2015\Projects\ConectorHuellero\ConectorHuellero\obj\Debug\ConectorHuellero.xml
+C:\Users\taois\Documents\Visual Studio 2015\Projects\ConectorHuellero\ConectorHuellero\bin\Debug\ConectorHuellero.exe
+C:\Users\taois\Documents\Visual Studio 2015\Projects\ConectorHuellero\ConectorHuellero\bin\Debug\ConectorHuellero.pdb
+C:\Users\taois\Documents\Visual Studio 2015\Projects\ConectorHuellero\ConectorHuellero\bin\Debug\ConectorHuellero.xml
+C:\Users\taois\Documents\Visual Studio 2015\Projects\ConectorHuellero\ConectorHuellero\bin\Debug\DPFPDevNET.dll
+C:\Users\taois\Documents\Visual Studio 2015\Projects\ConectorHuellero\ConectorHuellero\bin\Debug\DPFPShrNET.dll
+C:\Users\taois\Documents\Visual Studio 2015\Projects\ConectorHuellero\ConectorHuellero\obj\Debug\ConectorHuellero.Form1.resources
+C:\Users\taois\Documents\Visual Studio 2015\Projects\ConectorHuellero\ConectorHuellero\obj\Debug\ConectorHuellero.exe
+C:\Users\taois\Documents\Visual Studio 2015\Projects\ConectorHuellero\ConectorHuellero\obj\Debug\ConectorHuellero.pdb

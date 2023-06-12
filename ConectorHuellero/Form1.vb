@@ -1,6 +1,6 @@
 ﻿Imports DPFP
 Imports DPFP.Capture
-Public Class Main
+Public Class Form1
     Implements DPFP.Capture.EventHandler
 
     Private Captura As DPFP.Capture.Capture
@@ -19,7 +19,25 @@ Public Class Main
         End Try
     End Sub
 
+    Protected Sub iniciarCaptura()
+        If Not Captura Is Nothing Then
+            Try
+                Captura.StartCapture()
+            Catch ex As Exception
+                MessageBox.Show("no se pudo iniciar el huellero")
+            End Try
+        End If
+    End Sub
 
+    Protected Sub pararCaptura()
+        If Not Captura Is Nothing Then
+            Try
+                Captura.StopCapture()
+            Catch ex As Exception
+                MessageBox.Show("no se pudo detener la captura")
+            End Try
+        End If
+    End Sub
 
 
     Public Sub OnComplete(Capture As Object, ReaderSerialNumber As String, Sample As Sample) Implements EventHandler.OnComplete
@@ -29,9 +47,9 @@ Public Class Main
     Public Sub OnFingerGone(Capture As Object, ReaderSerialNumber As String) Implements EventHandler.OnFingerGone
 
     End Sub
-
+    ' cuanto toca con el huellero
     Public Sub OnFingerTouch(Capture As Object, ReaderSerialNumber As String) Implements EventHandler.OnFingerTouch
-
+        MessageBox.Show("tocan el huellero")
     End Sub
 
     Public Sub OnReaderConnect(Capture As Object, ReaderSerialNumber As String) Implements EventHandler.OnReaderConnect
@@ -44,5 +62,14 @@ Public Class Main
 
     Public Sub OnSampleQuality(Capture As Object, ReaderSerialNumber As String, CaptureFeedback As CaptureFeedback) Implements EventHandler.OnSampleQuality
 
+    End Sub
+    ' forumarlio de la ventana
+    Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Init()
+        iniciarCaptura()
+    End Sub
+    ' cuando se cierre la ventana
+    Private Sub Main_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
+        pararCaptura()
     End Sub
 End Class
