@@ -4,6 +4,7 @@ Public Class Form1
     Implements DPFP.Capture.EventHandler
 
     Private Captura As DPFP.Capture.Capture
+    Private Enroller As DPFP.Processing.Enrollment
 
     ' verifica al inciiar la capura
     Protected Overridable Sub Init()
@@ -11,6 +12,7 @@ Public Class Form1
             Captura = New Capture()
             If Not Captura Is Nothing Then
                 Captura.EventHandler = Me
+                Enroller = New DPFP.Processing.Enrollment()
             Else
                 MessageBox.Show("no se pudo iniciar al captura")
             End If
@@ -41,7 +43,10 @@ Public Class Form1
 
 
     Public Sub OnComplete(Capture As Object, ReaderSerialNumber As String, Sample As Sample) Implements EventHandler.OnComplete
-
+        ' convierte la imagen
+        Dim imagen = ConvertirSampleMapaBits(Sample)
+        ' setea la imagen en el form
+        ponerImagen(imagen)
     End Sub
 
     Public Sub OnFingerGone(Capture As Object, ReaderSerialNumber As String) Implements EventHandler.OnFingerGone
@@ -49,7 +54,7 @@ Public Class Form1
     End Sub
     ' cuanto toca con el huellero
     Public Sub OnFingerTouch(Capture As Object, ReaderSerialNumber As String) Implements EventHandler.OnFingerTouch
-        MessageBox.Show("tocan el huellero")
+        ' MessageBox.Show("tocan el huellero")
     End Sub
 
     Public Sub OnReaderConnect(Capture As Object, ReaderSerialNumber As String) Implements EventHandler.OnReaderConnect
@@ -72,4 +77,54 @@ Public Class Form1
     Private Sub Main_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
         pararCaptura()
     End Sub
+
+    ' convierte sample (codigo)a imagen
+    Protected Function ConvertirSampleMapaBits(ByVal Sample As DPFP.Sample) As Bitmap
+        ' es una variable de tipo conversonr de un DPFP.SAMPLE
+        Dim convertidor As New DPFP.Capture.SampleConversion()
+        ' ES UN MAPAD E BITS
+        Dim mapaBits As Bitmap = Nothing
+        convertidor.ConvertToPicture(Sample, mapaBits)
+        Return mapaBits
+    End Function
+
+    'mostrar la iamgen en el cuadro de imagen
+    Private Sub ponerImagen(ByVal bmp)
+        imagenHuella.Image = bmp
+    End Sub
+    'extre las caracteristicas de la huella para guardarla en la base de datos
+    Protected Function extraerCaracteristica(ByVal Sample As DPFP.Sample, ByVal Purpose As DPFP.Processing.DataPurpose) As DPFP.FeatureSet
+        Dim extractor As New DPFP.Processing.FeatureExtraction
+        Dim feedback As DPFP.Capture.CaptureFeedback = DPFP.Capture.CaptureFeedback.None
+        Dim caracteristicas As New DPFP.FeatureSet()
+        ' verfica el estado de la huella
+        extractor.CreateFeatureSet(Sample, Purpose, feedback, caracteristicas)
+        If (feedback = DPFP.Capture.CaptureFeedback.Good) Then
+            Return caracteristicas
+        Else
+            Return Nothing
+        End If
+
+    End Function
+
+    Protected Sub Procesar(ByVal Sample As DPFP.Sample)
+        Dim caracteristicas As DPFP.FeatureSet = extraerCaracteristica(Sample, DPFP.Processing.DataPurpose.Enrollment)
+        If (Not caracteristicas Is Nothing) Then
+            Try
+                Enroller.AddFeatures(caracteristicas)
+            Finally
+                Select Case Enroller.TemplateStatus
+                    Case DPFP.Processing.Enrollment.Status.Ready
+                        pararCaptura()
+                    Case DPFP.Processing.Enrollment.Status.Failed
+                        Enroller.Clear()
+                        pararCaptura()
+                        iniciarCaptura()
+                End Select
+
+            End Try
+        End If
+    End Sub
+
+
 End Class
